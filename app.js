@@ -487,3 +487,206 @@ if(
     );
 
 }
+
+/*
+================================
+ Export
+================================
+*/
+
+function exportieren(){
+
+
+    let daten = JSON.stringify(
+        buecher,
+        null,
+        4
+    );
+
+
+    let blob = new Blob(
+        [daten],
+        {
+            type:"application/json"
+        }
+    );
+
+
+    let url =
+    URL.createObjectURL(blob);
+
+
+    let link =
+    document.createElement("a");
+
+
+    let datum =
+    new Date()
+    .toISOString()
+    .slice(0,10);
+
+
+
+    link.href=url;
+
+
+    link.download =
+    "buecher_backup_" 
+    + datum 
+    + ".json";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(url);
+
+
+}
+
+
+
+
+/*
+================================
+ Import
+================================
+*/
+
+function importieren(){
+
+
+    let datei =
+    document
+    .getElementById("importDatei")
+    .files[0];
+
+
+
+    if(!datei){
+
+        alert(
+        "Bitte zuerst eine Backup-Datei auswählen."
+        );
+
+        return;
+
+    }
+
+
+
+    let reader =
+    new FileReader();
+
+
+
+    reader.onload=function(e){
+
+
+        try{
+
+
+            let importierteDaten =
+            JSON.parse(
+                e.target.result
+            );
+
+
+
+
+if(
+    !Array.isArray(importierteDaten)
+){
+
+    throw "Ungültiges Format";
+
+}
+
+
+/*
+================================
+ Prüfung der Buchdaten
+================================
+*/
+
+let gueltigeBuecher =
+importierteDaten.every(
+
+    buch =>
+
+    buch.titel &&
+    buch.autor &&
+    buch.datum &&
+    buch.kategorie &&
+    buch.unterkategorie
+
+);
+
+
+
+if(
+    !gueltigeBuecher
+){
+
+    throw "Keine gültige Bücherdatei";
+
+}
+
+
+
+/*
+================================
+ Überschreiben bestätigen
+================================
+*/
+
+if(
+    confirm(
+        "Die vorhandenen Bücher werden überschrieben. Möchtest du fortfahren?"
+    )
+){
+
+    buecher = importierteDaten;
+
+}
+else{
+
+    return;
+
+}
+
+
+            speichern();
+
+
+            anzeigen();
+
+
+
+            alert(
+            "Bücher erfolgreich importiert."
+            );
+
+
+
+        }
+
+        catch(error){
+
+
+            alert(
+            "Import fehlgeschlagen. Datei prüfen."
+            );
+
+
+        }
+
+
+    };
+
+
+
+    reader.readAsText(datei);
+
+
+}

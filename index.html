@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bücherverwaltung</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="theme-color" content="#1976d2">
+
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+
+<body>
+
+<header>
+
+<h1>📚 Bücherverwaltung</h1>
+
+</header>
+
+<main>
+
+<section class="eingabe">
+
+<h2>Neues Buch</h2>
+
+<input id="titel" type="text" placeholder="Titel">
+
+<input id="autor" type="text" placeholder="Autor">
+
+<input id="datum" type="date">
+
+<select id="kategorie">
+
+<option>Geschichte</option>
+
+<option>Roman</option>
+
+<option>Fantasy</option>
+
+<option>Krimi</option>
+
+<option>Sachbuch</option>
+
+<option>Biografie</option>
+
+</select>
+
+<input id="unterkategorie"
+type="text"
+placeholder="Unterkategorie">
+
+<button onclick="buchHinzufuegen()">
+
+Buch hinzufügen
+
+</button>
+
+</section>
+
+<hr>
+
+<section>
+
+<h2>Suche</h2>
+
+<input
+id="suche"
+type="text"
+placeholder="Titel oder Autor"
+onkeyup="anzeigen()">
+
+<select
+id="filterKategorie"
+onchange="anzeigen()">
+
+<option value="">Alle Kategorien</option>
+
+<option>Geschichte</option>
+
+<option>Roman</option>
+
+<option>Fantasy</option>
+
+<option>Krimi</option>
+
+<option>Sachbuch</option>
+
+<option>Biografie</option>
+
+</select>
+
+</section>
+
+<section>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th onclick="sortieren('titel')">Titel ▲▼</th>
+
+<th onclick="sortieren('autor')">Autor ▲▼</th>
+
+<th onclick="sortieren('datum')">Erscheinungsdatum ▲▼</th>
+
+<th onclick="sortieren('kategorie')">Kategorie ▲▼</th>
+
+<th onclick="sortieren('unterkategorie')">Unterkategorie ▲▼</th>
+
+<th>Aktionen</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tabelle">
+
+</tbody>
+
+</table>
+
+</section>
+
+</main>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

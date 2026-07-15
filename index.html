@@ -35,51 +35,68 @@
 
 <section class="eingabe">
 
-<h2>Neues Buch</h2>
+    <section class="eingabe">
 
-<input id="titel" type="text" placeholder="Titel">
+        <h2>Neues Buch</h2>
+    
+        <input id="titel" type="text" placeholder="Titel">
+    
+        <input id="autor" type="text" placeholder="Autor">
+    
+        <input id="datum" type="date">
+    
+        <select id="kategorie"></select>
+    
+        <input
+            id="unterkategorie"
+            type="text"
+            placeholder="Unterkategorie">
+    
+        <button onclick="buchHinzufuegen()">
+            Buch hinzufügen
+        </button>
+    
+    </section>
+    
+    <section class="kategorien">
+    
+        <h2>Kategorien verwalten</h2>
+    
+        <input
+            id="neueKategorie"
+            type="text"
+            placeholder="Neue Hauptkategorie">
+    
+        <button onclick="kategorieHinzufuegen()">
+            Kategorie hinzufügen
+        </button>
+    
+        <table id="kategorienTabelle">
 
-<input id="autor" type="text" placeholder="Autor">
-
-<input id="datum" type="date">
-
-<select id="kategorie">
-
-<option>Geschichte</option>
-
-<option>Roman</option>
-
-<option>Fantasy</option>
-
-<option>Krimi</option>
-
-<option>Sachbuch</option>
-
-<option>Biografie</option>
-
-<option>Wissenschaft</option>
-
-<option>Kinderbücher</option>
-
-<option>Reisen</option>
-
-</select>
-
-<input id="unterkategorie"
-type="text"
-placeholder="Unterkategorie">
-
-<button onclick="buchHinzufuegen()">
-
-Buch hinzufügen
-
-</button>
-
-</section>
-
-<hr>
-
-<section>
+            <thead>
+        
+                <tr>
+        
+                    <th>Kategorie</th>
+        
+                    <th>Aktionen</th>
+        
+                </tr>
+        
+            </thead>
+        
+            <tbody id="kategorienListe">
+        
+            </tbody>
+        
+        </table>
+    
+    </section>
+    
+    <hr>
+    
+    <section>
+        <!-- Suche -->
 
 <h2>Suche</h2>
 

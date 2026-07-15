@@ -1,4 +1,5 @@
 let buecher = [];
+let kategorien = [];
 
 let sortierRichtung = true;
 let aktuelleSortierung = "";
@@ -54,6 +55,305 @@ function laden(){
         speichern();
 
     }
+
+    anzeigen();
+
+}
+
+function kategorienLaden(){
+
+    let gespeichert =
+    localStorage.getItem("kategorien");
+
+    if(gespeichert){
+
+        kategorien =
+        JSON.parse(gespeichert);
+
+    }
+    else{
+
+        kategorien = [
+
+            "Geschichte",
+            "Roman",
+            "Fantasy",
+            "Krimi",
+            "Sachbuch",
+            "Biografie"
+
+        ];
+
+        kategorienSpeichern();
+
+    }
+
+    kategorienAnzeigen();
+
+}
+
+function kategorienSpeichern(){
+
+    localStorage.setItem(
+
+        "kategorien",
+
+        JSON.stringify(kategorien)
+
+    );
+
+}
+
+function kategorienAnzeigen(){
+
+    let select =
+    document.getElementById("kategorie");
+
+    let filter =
+    document.getElementById("filterKategorie");
+
+    let liste =
+    document.getElementById("kategorienListe");
+
+
+    select.innerHTML="";
+
+    filter.innerHTML=
+    "<option value=''>Alle Kategorien</option>";
+
+    liste.innerHTML="";
+
+
+    kategorien.forEach(kategorie=>{
+
+
+        // Dropdown "Neues Buch"
+
+        let option =
+        document.createElement("option");
+
+        option.textContent=kategorie;
+
+        option.value=kategorie;
+
+        select.appendChild(option);
+
+
+        // Filter
+
+        let option2 =
+        document.createElement("option");
+
+        option2.textContent=kategorie;
+
+        option2.value=kategorie;
+
+        filter.appendChild(option2);
+
+
+        // Verwaltungsliste
+
+        let zeile =
+document.createElement("tr");
+
+zeile.innerHTML = `
+
+<td>
+
+${kategorie}
+
+</td>
+
+<td>
+
+<button
+class="btnBearbeiten"
+onclick="kategorieBearbeiten('${kategorie}')">
+
+✏️
+
+</button>
+
+<button
+class="btnLoeschen"
+onclick="kategorieLoeschen('${kategorie}')">
+
+🗑️
+
+</button>
+
+</td>
+
+`;
+
+liste.appendChild(zeile);
+    });
+
+}
+
+function kategorieHinzufuegen(){
+
+    let name =
+
+    document
+    .getElementById("neueKategorie")
+    .value
+    .trim();
+
+
+    if(name===""){
+
+        return;
+
+    }
+
+
+    if(kategorien.includes(name)){
+
+        alert("Kategorie existiert bereits.");
+
+        return;
+
+    }
+
+
+    kategorien.push(name);
+
+    kategorien.sort();
+
+    kategorienSpeichern();
+
+    kategorienAnzeigen();
+
+
+    document
+    .getElementById("neueKategorie")
+    .value="";
+
+}
+
+function kategorieLoeschen(name){
+
+    let anzahl =
+
+    buecher.filter(
+
+        buch =>
+
+        buch.kategorie===name
+
+    ).length;
+
+
+    if(
+        anzahl>0
+    ){
+
+        alert(
+
+            "Diese Kategorie wird noch von "
+
+            + anzahl +
+
+            " Buch/Büchern verwendet."
+
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !confirm(
+        "Kategorie wirklich löschen?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    kategorien =
+
+    kategorien.filter(
+
+        k=>k!==name
+
+    );
+
+
+    kategorienSpeichern();
+
+    kategorienAnzeigen();
+
+}
+
+function kategorieBearbeiten(alterName){
+
+    let neuerName =
+    prompt(
+        "Neuer Kategoriename:",
+        alterName
+    );
+
+    if(
+        !neuerName
+    ){
+
+        return;
+
+    }
+
+    neuerName = neuerName.trim();
+
+    if(
+        neuerName === ""
+    ){
+
+        return;
+
+    }
+
+    if(
+        kategorien.includes(neuerName)
+    ){
+
+        alert("Diese Kategorie existiert bereits.");
+
+        return;
+
+    }
+
+    // Kategorienliste ändern
+
+    let index =
+    kategorien.indexOf(alterName);
+
+    kategorien[index] = neuerName;
+
+    // Bücher anpassen
+
+    buecher.forEach(buch=>{
+
+        if(
+            buch.kategorie===alterName
+        ){
+
+            buch.kategorie=neuerName;
+
+        }
+
+    });
+
+    kategorien.sort();
+
+    kategorienSpeichern();
+
+    speichern();
+
+    kategorienAnzeigen();
 
     anzeigen();
 
@@ -455,8 +755,9 @@ function sortieren(spalte){
 */
 
 
-laden();
+kategorienLaden();
 
+laden();
 
 
 /*
